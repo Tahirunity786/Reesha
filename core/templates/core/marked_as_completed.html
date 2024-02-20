@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marked as Completed</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="page-2">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-bordered pd-y-20" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="ico icon-close"></i></span>
+        </button>
+        <div class="d-sm-flex align-items-center justify-content-start">
+            <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
+            <div class="mg-t-20 mg-sm-t-0">
+
+                <p class="mg-b-0 tx-gray">{{ message }}</p>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="me-4">
+                    <h4>Marked as Completed</h4>
+                </div>
+                <button class="rounded-3 l-btn" data-bs-toggle="modal" data-bs-target="#mm">
+                    <span>
+                        <svg style="height: 1rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path
+                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                        </svg>
+                    </span> Explore
+                </button>
+
+            </div>
+            <div class="col-lg-6 text-end">
+                <a class="btn btn-light" href="/core/public/u/logout">
+                    Logout
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd"
+                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                </a>
+
+            </div>
+        </div>
+        <div class="mt-4 mb-4 rounded container">
+            {% for lists in Lists %}
+            {% if lists.mark_as_completed == True %}
+            <div class="d-flex justify-content-between align-items-center mb-2 bg-light p-2 w-75 m-auto rounded"
+                data-id="{{lists.id}}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <img src="/media/{{lists.image_a}}" alt="image" class="rounded-circle" height="60px"
+                            width="60px" style="object-fit: cover;">
+                    </div>
+                    <div class="details ms-3">
+                        <h6 style="margin-bottom: 5px !important;">{{lists.title}}</h6>
+                        <p style="margin-bottom: 0px !important;">{{lists.description}}</p>
+                    </div>
+                </div>
+                <div class="menu">
+                    <div class="dropdown">
+                        <button style="background-color: white; border-radius: 50px; border: none;"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                            </svg>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/core/public/lists/del/{{lists.id}}/"><span
+                                        class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="red" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                        </svg></span>Delete</a></li>
+
+                            <li><a class="dropdown-item" href="/core/public/lists/unmark/{{lists.id}}/"> <span
+                                        class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
+                                        </svg></span>Unmarked List</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% comment %} modal {% endcomment %}
+        {% include "core/models.html" %}
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>

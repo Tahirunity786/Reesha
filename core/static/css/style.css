@@ -103,7 +103,8 @@ input#s-input {
 
 .sec-4 {
 
-    height: 500px;
+    height: auto;
+    padding-bottom: 50px;
 }
 
 /* Remove all border and outline styling from the textarea */
@@ -289,3 +290,5 @@ input#s-input {
 .log-btn:active{
     background-color: #E49700;
 }
+
+
