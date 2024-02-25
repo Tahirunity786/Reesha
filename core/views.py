@@ -260,3 +260,11 @@ def search_list(request):
         search_results = None
 
     return render(request, 'core/search.html', {'search_results': search_results, 'query': query})
+
+def social_data(request):
+
+    return render(request, 'core/social.html')
+
+def account(request):
+
+    return render(request, 'core/account.html')

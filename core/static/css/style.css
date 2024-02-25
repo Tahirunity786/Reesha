@@ -1,8 +1,9 @@
-body {
+body,
+html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
+    height: 100%;
 }
 
 .page-2 {
@@ -38,7 +39,7 @@ body {
     border-style: none;
     height: 40px;
     width: 100px;
-border-radius: 8px;
+    border-radius: 8px;
     text-align: center;
 }
 
@@ -74,9 +75,9 @@ border-radius: 8px;
 #plus-btn {
     height: 3rem;
     width: 3rem;
-   background-color: white;
-   /* border: 1px solid white; */
-   border: none;
+    background-color: white;
+    /* border: 1px solid white; */
+    border: none;
 }
 
 
@@ -127,78 +128,27 @@ input#s-input {
 
 }
 
-/* Media query for screens between 576px and 767px */
-/* @media screen and (min-width: 575px) and (max-width: 767px) {
-    .card {
-        width: 18rem;
-        margin: auto;
-    }
 
-    .img-sec {
-        margin-top: 12px;
-
-
-    }
-
-    .img-card {
-        margin-top: 12px;
-
-    }
-} */
-
-/* @media screen and (min-width: 366px) and (max-width: 575px) {
-    .img-card {
-        margin-top: 12px;
-
-    }
-
-    .img-sec {
-        margin-top: 10px;
-        padding: 10px;
-
-
-    }
-
-    .card {
-        width: 15rem;
-        margin: auto;
-        margin-top: 12px;
-
-    }
-} */
-/* 
-@media screen and (min-width: 220px) and (max-width: 365px) {
-    .img-card {
-        margin-top: 12px;
-
-    }
-
-    .img-sec {
-        margin-top: 10px;
-
-
-
-    }
-
-
-} */
 
 .modal-sec {
     background-color: #E49700;
 }
-.m-sec{
+
+.m-sec {
     height: 285px;
 }
+
 /* .modal-footer{
     background-color: #E49700;
 } */
-#plus-btn1{
+#plus-btn1 {
     height: 3rem;
     width: 3rem;
-   background-color: #E49700;
-   border: 1px solid white;
+    background-color: #E49700;
+    border: 1px solid white;
 }
-.t-btn{
+
+.t-btn {
     background-color: white;
     border-radius: 8px;
     border: none;
@@ -208,7 +158,8 @@ input#s-input {
     color: black;
     /* border-radius: 10px; */
 }
-.m-btn{
+
+.m-btn {
     background-color: white;
     border: none;
     outline: none;
@@ -216,24 +167,31 @@ input#s-input {
     height: 40px;
 
 }
-.reg-sec{
+
+.reg-sec {
     background-color: #E49700;
 }
+
 .custom-input {
-    height: 38px; /* Adjust the height as needed */
+    height: 38px;
+    /* Adjust the height as needed */
     border: none;
     outline: none;
     border-radius: 6px;
     padding-left: 10px;
-    width: 40%; /* Adjust the width as needed */
+    width: 40%;
+    /* Adjust the width as needed */
 }
+
 .form-check-input {
-    margin-top: 0; /* Remove top margin */
-   
+    margin-top: 0;
+    /* Remove top margin */
+
     /* margin-right: 11rem; */
-     /* Align with the left edge */
+    /* Align with the left edge */
 }
-.reg-btn{
+
+.reg-btn {
     background-color: white;
     border-radius: 8px;
     border: none;
@@ -245,14 +203,17 @@ input#s-input {
 
 @media screen and (min-width: 480px) and (max-width: 765px) {
     .custom-input {
-        height: 38px; /* Adjust the height as needed */
+        height: 38px;
+        /* Adjust the height as needed */
         border: none;
         outline: none;
         border-radius: 6px;
         padding-left: 10px;
-        width: 50%; /* Adjust the width as needed */
+        width: 50%;
+        /* Adjust the width as needed */
     }
-    .l-input{
+
+    .l-input {
         /* style="text-align: start; width: 40%; */
         text-align: start;
         width: 40%;
@@ -260,19 +221,24 @@ input#s-input {
 
 
 }
+
 @media screen and (min-width: 250px) and (max-width: 480px) {
     .custom-input {
-        height: 38px; /* Adjust the height as needed */
+        height: 38px;
+        /* Adjust the height as needed */
         border: none;
         outline: none;
         border-radius: 6px;
         padding-left: 10px;
-        width: 55%; /* Adjust the width as needed */
+        width: 55%;
+        /* Adjust the width as needed */
     }
 
 
+
 }
-.log-btn{
+
+.log-btn {
     background-color: #E49700;
     border-radius: 8px;
     border: none;
@@ -281,14 +247,108 @@ input#s-input {
     width: 100px;
     color: white;
 }
-.log-btn:hover{
+
+.log-btn:hover {
     background-color: #E49700;
 }
-.log-btn:focus{
+
+.log-btn:focus {
     background-color: #E49700;
 }
-.log-btn:active{
+
+.log-btn:active {
     background-color: #E49700;
 }
 
 
+.nav-b {
+    border-right: 4px solid black;
+    padding-right: 20px;
+}
+
+
+.post {
+    width: 40%;
+}
+
+.post-in {
+    height: 60px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fde0aa;
+    font-weight: 600;
+    resize: none;
+}
+
+
+
+/* Media query for screens between 576px and 767px */
+@media screen and (min-width: 993px) {
+
+    .card {
+        height: 250px !important;
+
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 992px) {
+
+    .card {
+        height: 800px !important;
+
+    }
+
+    .post {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 575px) and (max-width: 767px) {
+
+    .card {
+        height: 800px !important;
+
+    }
+
+    .post {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 366px) and (max-width: 575px) {
+
+    .card {
+        height: 800px !important;
+
+    }
+
+    .post {
+        width: 100%;
+    }
+}
+
+.a-card {
+    height: 350px !important;
+    margin-bottom: 30px;
+    border: none;
+    background-color: transparent;
+
+}
+
+.a-card .card-body {
+    background-color: transparent;
+}
+
+.account-inp {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 75%;
+}
+
+.acc-text {
+    resize: none;
+}

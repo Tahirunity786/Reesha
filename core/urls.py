@@ -1,7 +1,9 @@
 from django.urls import path
-from core.views import Register, Login, Logout, create_list, update_list, list_del, list_marked, list_unmarked, marked_as_completed, search_list
+from core.views import (Register, Login, Logout, create_list, update_list, list_del, list_marked, list_unmarked, marked_as_completed, search_list, social_data, account)
 
 urlpatterns = [
+    path('public', social_data, name="post"),
+    path('public/account', account, name="account"),
     path('public/m/list/search', search_list, name="l-search"),
     path('public/m/list', marked_as_completed, name="m-completed"),
     path('public/u/register', Register, name="Register"),

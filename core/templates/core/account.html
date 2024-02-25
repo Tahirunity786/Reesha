@@ -1,0 +1,40 @@
+{% extends "base/base.html" %}
+{% block title %}Account{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="container mb-5">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-lg-4 col-sm-12">
+            <div class="card a-card mt-4" style="width: 22rem;">
+                <img src="{% static 'media/logo.webp'%}" class="card-img-top rounded-pill" alt="...">
+                <div class="card-body" style="text-align: center;">
+                  <button class="btn"
+                            style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-weight: 900;">UPDATE PFP</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-sm-12">
+            <form action="#" method="post" class="ms-5">
+                <div class="mb-3">
+                    <label for="acc-1" class="d-block mb-2">First name</label>
+                    <input type="text"  class="account-inp" id="acc-1" placeholder="Enter your first name...">
+                </div>
+                <div class="mb-3">
+                    <label for="acc-2" class="d-block mb-2">Last name</label>
+                    <input type="text" class="account-inp" id="acc-2" placeholder="Enter your last name">
+                </div>
+                <div class="mb-3">
+                    <label for="acc-3" class="d-block mb-2">Age</label>
+                    <input type="number" class="account-inp" id="acc-3" placeholder="How many age are you? e.g: 20">
+                </div>
+                <div class="mb-3">
+                    <label for="acc-4" class="d-block mb-2">Address</label>
+                    <textarea name="" id="" cols="30" rows="5" id="acc-4" class="account-inp acc-text" placeholder="Your Address"></textarea>
+                </div>
+
+            </form>
+            <button class="s-modal m-button">Show Modal</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}

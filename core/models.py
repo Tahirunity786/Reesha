@@ -5,12 +5,16 @@ from core.manager import CustomUserManager
 from django.utils import timezone
 
 class User(AbstractUser):
-    username = models.CharField(max_length = 100, null=True, blank=True)
-    full_name = models.CharField(max_length=100, default='')
-    email = models.EmailField(_("email address"), null=False, unique=True)
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(default=None, null=True)
+    profile_pic = models.ImageField(upload_to="usr/pics", null=True, default="")
+    first_name = models.CharField(max_length=100, default='', null=True)
+    last_name = models.CharField(max_length=100, default='', null=True)
+    age = models.IntegerField(default=0, null=True)
+    address = models.TextField(default=None, null=True)
 
+    username = models.CharField(max_length = 100, null=True, blank=True)
+    email = models.EmailField(_("email address"), null=False, unique=True)
+    last_login = models.DateTimeField(default=None, null=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

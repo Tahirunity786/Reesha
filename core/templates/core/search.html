@@ -1,51 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load static %}
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Searched Items</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap-utilities.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-
-<body class="page-2">
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-bordered pd-y-20" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true"><i class="ico icon-close"></i></span>
-        </button>
-        <div class="d-sm-flex align-items-center justify-content-start">
-            <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
-            <div class="mg-t-20 mg-sm-t-0">
-
-                <p class="mg-b-0 tx-gray">{{ message }}</p>
-            </div>
-        </div>
-    </div>
-
-    {% endfor %}
+{% extends "base/base.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
     <div class="container">
         <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
             <div class="col-lg-6">
-                <h2>Search results for {{query}}</h2>
+                <h2 class="text-light">Search results for:- {{query}}</h2>
             </div>
-            <div class="col-lg-6 text-end">
-                <a class="btn btn-light" href="/core/public/u/logout">
-                    Logout
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                        <path fill-rule="evenodd"
-                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                    </svg>
-                </a>
-
-            </div>
+            
         </div>
         <div class="mt-4 mb-4 rounded container">
             {% if search_results %}
@@ -131,104 +92,5 @@
             </ul>
             {% endif %}
         </div>
-        {% comment %} modal {% endcomment %}
-        {% include "core/models.html" %}
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-        <script>
-            // Add your JavaScript code here (adjust variable names and paths as needed)
-            const imageInput = document.getElementById('image1');
-            const previewImage = document.getElementById('previewImage');
-            const imageIcon = document.getElementById('imageIcon');
-    
-            imageInput.addEventListener('change', function (event) {
-                const file = event.target.files[0];
-    
-                if (file) {
-                    const reader = new FileReader();
-    
-                    reader.onload = function (event) {
-                        previewImage.src = event.target.result; // Set the image source
-                        previewImage.style.display = 'block'; // Show the preview
-                        imageIcon.style.display = 'none'; // Hide the SVG icon
-                    };
-    
-                    reader.readAsDataURL(file);
-                }
-            });
-    
-            // Add your JavaScript code here (adjust variable names and paths as needed)
-            const imageInput2 = document.getElementById('image2');
-            const previewImage2 = document.getElementById('previewImage2');
-            const imageIcon2 = document.getElementById('imageIcon2');
-    
-            imageInput2.addEventListener('change', function (event) {
-                const file = event.target.files[0];
-    
-                if (file) {
-                    const reader = new FileReader();
-    
-                    reader.onload = function (event) {
-                        previewImage2.src = event.target.result; // Set the image source
-                        previewImage2.style.display = 'block'; // Show the preview
-                        imageIcon2.style.display = 'none'; // Hide the SVG icon
-                    };
-    
-                    reader.readAsDataURL(file);
-                }
-            });
-            document.addEventListener('click', function (event) {
-                if (event.target.closest('.dropdown-item')) {
-                    const listItem = event.target.closest('.d-flex[data-id]');
-                    console.log(listItem)
-                    if (listItem) {
-                        const listId = listItem.getAttribute('data-id');
-                        sessionStorage.setItem("id", listId);
-                        fetch(`/core/public/lists/${listId}/`)
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                populateModal(data);
-                            })
-                            .catch(error => {
-                                console.error('There was a problem with the fetch operation:', error);
-                            });
-                    }
-                }
-            });
-    
-    
-            function populateModal(data) {
-                const modalBody = document.getElementById('model-bod');
-                modalBody.innerHTML = `
-                <form method = "post", action="/core/public/lists/${data.id}/" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="model-title" name="title" value="${data.title}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea name="description" class="form-control" id="model-description">${data.description}</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image1" class="form-label">Main image</label>
-                        <input class="form-control" type="file" name="imagea" id="image1"  accept="image/*">
-                      </div>
-                      <div class="mb-3">
-                        <label for="image2" class="form-label">Side image</label>
-                
-                        <input class="form-control" type="file" name="imageb" id="image2" accept="image/*">
-                      </div>
-                <button type="submit" id="updateDataBtndynamic" class="btn text-right mt-4" style="background-color:orange; color:white;">Update Data</button>
-                </form>
-                `;
-            }
-        </script>
-    
-</body>
-
-</html>
+       
+        {% endblock content %}
