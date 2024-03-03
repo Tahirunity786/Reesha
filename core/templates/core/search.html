@@ -92,5 +92,60 @@
             </ul>
             {% endif %}
         </div>
-       
+        {% include "core/models.html" %}
         {% endblock content %}
+{% block js %}
+document.addEventListener('click', function (event) {
+    if (event.target.closest('.dropdown-item')) {
+    const listItem = event.target.closest('.d-flex[data-id]');
+    
+    if (listItem) {
+    const listId = listItem.getAttribute('data-id');
+    
+    fetch(`/core/public/lists/${listId}/`)
+    .then(response => {
+    if (!response.ok) {
+    throw new Error('Network response was not ok');
+    }
+    return response.json();
+    })
+    .then(data => {
+    populateModal(data);
+    })
+    .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+    });
+    }
+    }
+    });
+    
+    
+    
+    function populateModal(data) {
+    const modalBody = document.getElementById('model-bod');
+    modalBody.innerHTML = `
+    <form method="post" , action="/core/public/lists/${data.id}/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="model-title" name="title" value="${data.title}">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" class="form-control" id="model-description">${data.description}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image1" class="form-label">Main image</label>
+            <input class="form-control" type="file" name="imagea" id="image1" accept="image/*">
+        </div>
+        <div class="mb-3">
+            <label for="image2" class="form-label">Side image</label>
+    
+            <input class="form-control" type="file" name="imageb" id="image2" accept="image/*">
+        </div>
+        <button type="submit" id="updateDataBtndynamic" class="btn text-right mt-4"
+            style="background-color:orange; color:white;">Update Data</button>
+    </form>
+    `;
+    }
+{% endblock js %}

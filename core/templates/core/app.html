@@ -30,6 +30,16 @@
 
                 <ul class="dropdown-menu">
                     <li id="update-item"><!-- HTML for the modal trigger -->
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#detaillist">
+                            <span class="me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+                                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+                                  </svg>
+                            </span>
+                            Detail
+                        </a>
+                    </li>
+                    <li id="update-item"><!-- HTML for the modal trigger -->
                         <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateModal">
                             <span class="me-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green"
@@ -76,14 +86,9 @@
     {% endif %}
     {% endfor %}
 </div>
-<div class="d-flex justify-content-center mt-4 " style="position: fixed; bottom:10px; text-align: center;    position: fixed;
-        bottom: 10px;
-        text-align: center;
-        left: 42%;
-        right: 42%;
-    ">
+<div class="d-flex justify-content-center mt-4 btn-pos">
 
-    <button id="plus-btn" class="rounded-circle" data-toggle="modal" data-target="#addlist"
+    <button id="plus-btn" class="rounded-circle" data-bs-toggle="modal" data-bs-target="#menu"
         style="box-shadow: 0 0 8px;">
         <span>
             <svg style="height: 1rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -94,57 +99,60 @@
     </button>
 </div>
 </div>
+{% include "core/models.html" %}
 {% endblock content %}
 {% block js %}
 
-// Add your JavaScript code here (adjust variable names and paths as needed)
+// For image 1
 const imageInput = document.getElementById('image1');
-const previewImage = document.getElementById('previewImage');
+const previewImage = document.getElementById('previewImage1');
 const imageIcon = document.getElementById('imageIcon');
 
 imageInput.addEventListener('change', function (event) {
-const file = event.target.files[0];
+    const file = event.target.files[0];
 
-if (file) {
-const reader = new FileReader();
+    if (file) {
+        const reader = new FileReader();
 
-reader.onload = function (event) {
-previewImage.src = event.target.result; // Set the image source
-previewImage.style.display = 'block'; // Show the preview
-imageIcon.style.display = 'none'; // Hide the SVG icon
-};
+        reader.onload = function (event) {
+            previewImage.src = event.target.result;
+            previewImage.style.display = 'block'; // Make the preview image visible
+            imageIcon.style.display = 'none';
+        };
 
-reader.readAsDataURL(file);
-}
+        reader.readAsDataURL(file);
+    }
 });
 
-// Add your JavaScript code here (adjust variable names and paths as needed)
+// For image 2
 const imageInput2 = document.getElementById('image2');
 const previewImage2 = document.getElementById('previewImage2');
 const imageIcon2 = document.getElementById('imageIcon2');
 
 imageInput2.addEventListener('change', function (event) {
-const file = event.target.files[0];
+    const file = event.target.files[0];
 
-if (file) {
-const reader = new FileReader();
+    if (file) {
+        const reader = new FileReader();
 
-reader.onload = function (event) {
-previewImage2.src = event.target.result; // Set the image source
-previewImage2.style.display = 'block'; // Show the preview
-imageIcon2.style.display = 'none'; // Hide the SVG icon
-};
+        reader.onload = function (event) {
+            previewImage2.src = event.target.result;
+            previewImage2.style.display = 'block'; // Make the preview image visible
+            imageIcon2.style.display = 'none';
+        };
 
-reader.readAsDataURL(file);
-}
+        reader.readAsDataURL(file);
+    }
 });
+
+
 document.addEventListener('click', function (event) {
 if (event.target.closest('.dropdown-item')) {
 const listItem = event.target.closest('.d-flex[data-id]');
-console.log(listItem)
+
 if (listItem) {
 const listId = listItem.getAttribute('data-id');
-sessionStorage.setItem("id", listId);
+
 fetch(`/core/public/lists/${listId}/`)
 .then(response => {
 if (!response.ok) {
@@ -161,6 +169,7 @@ console.error('There was a problem with the fetch operation:', error);
 }
 }
 });
+
 
 
 function populateModal(data) {
@@ -190,4 +199,99 @@ modalBody.innerHTML = `
 </form>
 `;
 }
+
+document.addEventListener('click', function (event) {
+if (event.target.closest('.dropdown-item')) {
+const listItem = event.target.closest('.d-flex[data-id]');
+
+if (listItem) {
+const listId = listItem.getAttribute('data-id');
+
+fetch(`/core/public/lists/detail/${listId}/`)
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok');
+}
+return response.json();
+})
+.then(data => {
+    detailpupolate(data);
+})
+.catch(error => {
+console.error('There was a problem with the fetch operation:', error);
+});
+}
+}
+});
+function detailpupolate(data) {
+    const modalBody = document.getElementById('detaillistmodel'); // Corrected ID
+    modalBody.innerHTML = `
+        <h1>${data.title}</h1>
+        <hr>
+        <div class="row mb-3">
+            <div class="col-lg 6 col-sm-12 text-center">
+                <img src="${data.image_a}" alt="Image A " height="250" width="250" style="object-fit: cover;">
+            </div>
+            <div class="col-lg 6 col-sm-12 text-center">
+                <img src="${data.image_b}" alt="Image B" height="250" width="250" style="object-fit: cover;">
+            </div>
+
+        </div>
+        <p><b> Description:</b> ${data.description}</p>
+
+        <!-- Include other properties as needed -->
+        <p><b> Mark as Completed:</b> ${data.mark_as_completed ? 'Yes' : 'No'}</p>
+    `;
+}
+
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('prelists')) {
+        // Retrieve the list ID from data-id attribute
+        const listId = event.target.getAttribute('data-id');
+
+        // Make a request to the API to fetch list details
+        fetch(`/core/public/prelists/detail/${listId}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Populate input fields with retrieved data
+                document.getElementById('title').value = data.title;
+                document.getElementById('description').value = data.description;
+
+                // Optionally, you can also set image preview here if needed
+                // Example: document.getElementById('image1').src = data.imagea;
+                //          document.getElementById('image2').src = data.imageb;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+});
+
+$('.owl-carousel').owlCarousel({
+loop:true,
+margin:10,
+responsiveClass:true,
+responsive:{
+0:{
+items:1,
+nav:true
+},
+600:{
+items:3,
+nav:false
+},
+1000:{
+items:5,
+nav:true,
+loop:false
+}
+}
+})
+
 {% endblock js %}

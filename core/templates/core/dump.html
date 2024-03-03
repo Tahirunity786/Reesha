@@ -1,0 +1,22 @@
+<!-- Modal -->
+<div class="modal fade" id="mm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/core/public/m/list/search" method="get">
+                    <div class="mb-3">
+                        <label for="searchInput" class="form-label">Search</label>
+                        <input type="search" class="form-control" name="q" required id="searchInput"
+                            aria-describedby="searchhelp">
+                        <div id="searchhelp" class="form-text">Search Any list.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -5,36 +5,138 @@
 <div class="container mb-5">
     <div class="row" style="margin-top: 50px;">
         <div class="col-lg-4 col-sm-12">
-            <div class="card a-card mt-4" style="width: 22rem;">
-                <img src="{% static 'media/logo.webp'%}" class="card-img-top rounded-pill" alt="...">
-                <div class="card-body" style="text-align: center;">
-                  <button class="btn"
-                            style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-weight: 900;">UPDATE PFP</button>
+            <form action="/core/public/account" method="post" class="ms-5" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card a-card mt-4" style="width: 22rem;">
+                    {% if request.user.profile_pic %}
+                    <img id="previewImage" src="/media/{{request.user.profile_pic}}" class="rounded-pill" alt="..." width="350" height="350" style="border: 5px solid white; object-fit: cover;">
+                    {% else %}
+                    <img id="previewImage" src="{% static 'media/logo.webp' %}" class="rounded-pill" alt="..." width="350" height="350" style="border: 5px solid white; object-fit: cover;">
+                    {% endif %}
+                    <label for="pEFP" id="cmdbtn" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-camera-fill" viewBox="0 0 16 16">
+                            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                            <path
+                                d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0" />
+                        </svg>
+                    </label>
+                    <div class="card-body" style="text-align: center;">
+                        
+                        <input type="file" name="profilepic" id="pEFP" style="display: none;" accept="image/*">
+
+                        <button class="btn" type="submit"
+                            style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-weight: 900;">UPDATE
+                            PFP</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="col-lg-8 col-sm-12">
-            <form action="#" method="post" class="ms-5">
+            <form action="/core/public/account" method="post" class="ms-5">
+                {% csrf_token %}
                 <div class="mb-3">
-                    <label for="acc-1" class="d-block mb-2">First name</label>
-                    <input type="text"  class="account-inp" id="acc-1" placeholder="Enter your first name...">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="w-75">
+                            <label for="acc-1" class="d-block mb-2">First name</label>
+                            {% if request.user.first_name %}
+                            <input type="text" class="account-inp w-100" name="firstname" id="acc-1"
+                                placeholder="{{request.user.first_name}}">
+                            {% else %}
+                            <input type="text" class="account-inp w-100" name="firstname" id="acc-1"
+                                placeholder="Enter Your firstname">
+                            {% endif %}
+                        </div>
+                        <div class="ml-2 mt-4">
+                            <button class="btn btn-light">Update me</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="acc-2" class="d-block mb-2">Last name</label>
-                    <input type="text" class="account-inp" id="acc-2" placeholder="Enter your last name">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="w-75">
+                            <label for="acc-2" class="d-block mb-2">Last name</label>
+                            {% if request.user.last_name %}
+                            <input type="text" class="account-inp w-100" name="lastname" id="acc-2"
+                                placeholder="{{request.user.last_name}}">
+                            {% else %}
+                            <input type="text" class="account-inp w-100" name="lastname" id="acc-2"
+                                placeholder="Enter Your lastname">
+                            {% endif %}
+                        </div>
+                        <div class="ml-2 mt-4">
+                            <button class="btn btn-light">Update me</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="acc-3" class="d-block mb-2">Age</label>
-                    <input type="number" class="account-inp" id="acc-3" placeholder="How many age are you? e.g: 20">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="w-75">
+                            <label for="acc-3" class="d-block mb-2">Age</label>
+                            {% if request.user.age < 0 %} <input type="number" class="account-inp w-100" name="age"
+                                id="acc-3" placeholder="How old are you?">
+                                {% else %}
+                                <input type="number" class="account-inp w-100" name="age" id="acc-3"
+                                    placeholder="{{ request.user.age }}">
+                                {% endif %}
+
+                        </div>
+                        <div class="ml-2 mt-4">
+                            <button class="btn btn-light">Update me</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="acc-4" class="d-block mb-2">Address</label>
-                    <textarea name="" id="" cols="30" rows="5" id="acc-4" class="account-inp acc-text" placeholder="Your Address"></textarea>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="w-75">
+                            <label for="acc-4" class="d-block mb-2">Address</label>
+                            {% if request.user.address %}
+                            <textarea name="address" id="" cols="30" rows="5" id="acc-4"
+                                class="account-inp acc-text w-100" placeholder="{{request.user.address}}"></textarea>
+                            {% else %}
+                            <textarea name="address" id="" cols="30" rows="5" id="acc-4"
+                                class="account-inp acc-text w-100" placeholder="Your Address"></textarea>
+                            {% endif %}
+                        </div>
+                        <div class="ml-2">
+                            <button class="btn btn-light">Update me</button>
+                        </div>
+                    </div>
                 </div>
 
             </form>
-            <button class="s-modal m-button">Show Modal</button>
+
         </div>
     </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+// Get the file input element
+const fileInput = document.getElementById('pEFP');
+
+// Get the preview image element
+const previewImage = document.getElementById('previewImage');
+
+// Add event listener for file input change
+fileInput.addEventListener('change', function(event) {
+// Get the selected file
+const file = event.target.files[0];
+
+// Check if a file is selected
+if (file) {
+// Create a FileReader object
+const reader = new FileReader();
+
+// Set up FileReader onload event
+reader.onload = function(event) {
+// Set the src attribute of the preview image to the data URL
+previewImage.src = event.target.result;
+};
+
+// Read the selected file as a data URL
+reader.readAsDataURL(file);
+}
+});
+
+{% endblock js %}

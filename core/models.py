@@ -23,17 +23,48 @@ class User(AbstractUser):
     groups = models.ManyToManyField(Group, related_name='user_groups', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='user_permissions', blank=True)
 
+    
+
 
 class ListApp(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, default="")
     description = models.TextField(default='')
-    image_a = models.ImageField(upload_to="listimage", default=None)
-    image_b = models.ImageField(upload_to="listimage", default=None)
+    image_a = models.ImageField(upload_to="listimage", default=None, null=True)
+    image_b = models.ImageField(upload_to="listimage", default=None, null=True)
     mark_as_completed = models.BooleanField(default=False, null=True, blank=True)
     date_created = models.DateTimeField(default=timezone.now)  # Provide a default value
 
     def save(self, *args, **kwargs):
         if not self.pk:  # Only set date_created on creation, not update
+            self.date_created = timezone.now()
+        super().save(*args, **kwargs)
+
+        def __str__(self):
+            return self.title
+        
+
+class Prefdefinelist(models.Model):
+    title = models.CharField(max_length=200, default="")
+    description = models.TextField(default='', null=True)
+    image_a = models.ImageField(upload_to="listimage", default=None, null=True)
+    image_b = models.ImageField(upload_to="listimage", default=None, null=True)
+    mark_as_completed = models.BooleanField(default=False, null=True, blank=True)
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
+    
+
+
+class SocialPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField(default='', null=True)
+    image_a = models.ImageField(upload_to="social/post", default=None, null=True)
+    image_b = models.ImageField(upload_to="social/post", default=None, null=True)
+    date_created = models.DateTimeField(default=timezone.now)  # Provide a default value
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
             self.date_created = timezone.now()
         super().save(*args, **kwargs)

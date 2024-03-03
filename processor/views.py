@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from core.models import ListApp
+from core.models import ListApp, Prefdefinelist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
@@ -13,9 +13,11 @@ def main(request):
         user_account = User.objects.get(email=user)
         if user_account is not None:
             prod = ListApp.objects.filter(user=user_account)
-            return render(request, "core/app.html", {"Lists":prod})
+            lists = Prefdefinelist.objects.all()
+            return render(request, "core/app.html", {"Lists":prod, "predeflist":lists})
         else:
             render(request, "core/app.html", {"Error":"Not list found!"})
     except Exception as e:
+        print("Here is the error", e)
         return render(request, "oops.html", {"Error":e})
 

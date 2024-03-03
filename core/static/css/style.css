@@ -268,7 +268,7 @@ input#s-input {
 
 
 .post {
-    width: 40%;
+    width: 46%;
 }
 
 .post-in {
@@ -291,7 +291,13 @@ input#s-input {
         height: 250px !important;
 
     }
+
+    .modal-lg,
+    .modal-xl {
+        --bs-modal-width: 900px;
+    }
 }
+
 
 @media screen and (min-width: 767px) and (max-width: 992px) {
 
@@ -329,6 +335,10 @@ input#s-input {
     }
 }
 
+.fade-m {
+    transition: opacity .12s linear;
+}
+
 .a-card {
     height: 350px !important;
     margin-bottom: 30px;
@@ -351,4 +361,106 @@ input#s-input {
 
 .acc-text {
     resize: none;
+}
+
+.btn-pos {
+    position: fixed;
+    bottom: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 10px;
+    text-align: center;
+    left: 42%;
+    right: 42%;
+}
+
+/* Define the sliding animation for modal opening */
+@keyframes slideFromBottom {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Define the sliding animation for modal closing */
+@keyframes dropFromTop {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
+/* Apply the sliding animation to the modal dialog */
+.slide-from-bottom .modal-dialog {
+    animation: slideFromBottom 0.8s forwards;
+}
+
+/* Apply the sliding animation to the modal dialog when closing */
+.slide-from-bottom.modal.fade {
+    animation: dropFromTop 0.8s forwards;
+}
+
+.owl-nav {
+    text-align: center;
+}
+
+.btn-web {
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+    padding: 6px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+
+}
+
+.btn-web:focus {
+    background-color: #fcd58c;
+}
+
+.modal-content {
+    border-radius: 40px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.prelists {
+    background-color: orange;
+    height: 120px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+    color: white;
+
+}
+
+.owl-nav button {
+    width: 30px;
+    height: 30px;
+    background-color: #c5b4b4 !important;
+    margin-top: 3px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+#cmdbtn {
+    position: absolute;
+    top: 80%;
+    right: 10%;
+    background-color: white;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border: 5px solid #ada7a7;
+    border-radius: 50%;
+    padding-top: 6px;
 }
