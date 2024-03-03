@@ -63,7 +63,8 @@ class SocialPost(models.Model):
     image_a = models.ImageField(upload_to="social/post", default=None, null=True)
     image_b = models.ImageField(upload_to="social/post", default=None, null=True)
     date_created = models.DateTimeField(default=timezone.now)  # Provide a default value
-
+    is_trending = models.BooleanField(default=False)
+    is_popular = models.BooleanField(default=False)
     def save(self, *args, **kwargs):
         if not self.pk:
             self.date_created = timezone.now()

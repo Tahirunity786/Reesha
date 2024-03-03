@@ -4,7 +4,7 @@
 {% load static %}
 <div class="container mb-5">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-7">
             <div class="card mb-3 mt-4" style="max-width: 600px; ">
                 <div class="row g-0" style="height: 100%;">
                     <div class="col-lg-5 col-md-12 col-sm-12">
@@ -40,14 +40,69 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <h1>Trending posts</h1>
+        <div class="col-lg-5 mt-4 bg-light p-4 rounded" style="height: 35rem; ">
+            <div id="postSection">
+                <div class="text-center w-100">
+                    <button id="showTrendingBtn" class="active-2">Trending Posts</button>
+                    <button id="showPopularBtn">Popular Posts</button>
+                </div>
+                <div id="trendingPosts" class="postList" style="overflow-y: hidden;">
+                    <h1>Hello trending</h1>
+                </div>
+            
+                <div id="popularPosts" class="postList" style="opacity: 0; display: none; overflow-y: hidden;">
+                    <h1>Hello Popular</h1>
+                </div>
+            </div>
+            
+
+
         </div>
     </div>
-    <button style="position: fixed; top: 90%; z-index: 500; right: 8%; background-color: white; border: none; outline: none; border-radius: 50%; height: 55px; width: 55px; padding: 10px; box-shadow: 0px 5px 8px rgb(80, 80, 80);">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-          </svg>
+    <button
+        style="position: fixed; top: 89%; z-index: 500; right: 5%; background-color: white; border: none; outline: none; border-radius: 50%; height: 55px; width: 55px; padding: 10px; box-shadow: 0px 5px 8px rgb(80, 80, 80);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus"
+            viewBox="0 0 16 16">
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+        </svg>
     </button>
 </div>
 {% endblock content %}
+
+{% block js %}
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to toggle active class between buttons
+    document.querySelectorAll('#postSection button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            document.querySelectorAll('#postSection button').forEach(function(btn) {
+                btn.classList.remove('active-2');
+            });
+
+            // Add active class to clicked button
+            this.classList.add('active-2');
+
+            // Toggle display of sections with smooth transition
+            if (this.id === 'showTrendingBtn') {
+                document.getElementById('trendingPosts').style.display = 'block';
+                document.getElementById('popularPosts').style.display = 'none';
+                setTimeout(function() {
+                    document.getElementById('trendingPosts').style.opacity = '1';
+                    document.getElementById('popularPosts').style.opacity = '0';
+                }, 10); // Delay for smooth transition
+            } else if (this.id === 'showPopularBtn') {
+                document.getElementById('trendingPosts').style.display = 'none';
+                document.getElementById('popularPosts').style.display = 'block';
+                setTimeout(function() {
+                    document.getElementById('trendingPosts').style.opacity = '0';
+                    document.getElementById('popularPosts').style.opacity = '1';
+                }, 10); // Delay for smooth transition
+            }
+        });
+    });
+});
+
+
+
+{% endblock js %}

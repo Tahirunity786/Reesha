@@ -464,3 +464,23 @@ input#s-input {
     border-radius: 50%;
     padding-top: 6px;
 }
+#showTrendingBtn,
+#showPopularBtn {
+    background-color: rgb(250, 207, 172);
+    color: rgb(2, 2, 2);
+    outline: none;
+    border: none;
+    width: 220px;
+    border-radius: 10px;
+    height: 50px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background color and text color */
+}
+
+.active-2 {
+    background-color: rgb(255, 115, 0) !important;
+    color: white !important;
+}
+
+.postList {
+    transition: opacity 0.3s ease-in-out; /* Smooth transition for opacity */
+}
