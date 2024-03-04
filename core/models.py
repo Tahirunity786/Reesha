@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
 from core.manager import CustomUserManager
 from django.utils import timezone
-
+import uuid
 class User(AbstractUser):
     profile_pic = models.ImageField(upload_to="usr/pics", null=True, default="")
     first_name = models.CharField(max_length=100, default='', null=True)
@@ -63,9 +63,12 @@ class SocialPost(models.Model):
     image_a = models.ImageField(upload_to="social/post", default=None, null=True)
     image_b = models.ImageField(upload_to="social/post", default=None, null=True)
     date_created = models.DateTimeField(default=timezone.now)  # Provide a default value
+    slug = models.SlugField(unique=True, default="")
     is_trending = models.BooleanField(default=False)
     is_popular = models.BooleanField(default=False)
+
     def save(self, *args, **kwargs):
         if not self.pk:
             self.date_created = timezone.now()
+            self.slug = uuid.uuid4()  # This generates a UUID string, not a slug
         super().save(*args, **kwargs)

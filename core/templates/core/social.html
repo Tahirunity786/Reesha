@@ -5,62 +5,205 @@
 <div class="container mb-5">
     <div class="row">
         <div class="col-lg-7">
+            {% for post in socialpost%}
+            {% if socialpost %}
             <div class="card mb-3 mt-4" style="max-width: 600px; ">
                 <div class="row g-0" style="height: 100%;">
-                    <div class="col-lg-5 col-md-12 col-sm-12">
-                        <img src="{% static 'media/logo.webp' %}" class="img-fluid rounded-start" style="height: 100%;"
-                            alt="...">
+
+                    <div class="col-lg-5 col-md-12 col-sm-12" style="height:100%">
+                        {% if post.image_a %}
+                        <img src="/media/{{post.image_a}}" class="img-fluid rounded-start"
+                            style="width:100%;height: 100%;" alt="...">
+                        {% elif post.image_b and not post.image_a %}
+                        <img src="/media/{{post.image_b}}" class="img-fluid rounded-start"
+                            style="width:100%;height: 100%;" alt="...">
+                        {% else %}
+                        <img src="{% static 'media/logo.webp' %}" class="img-fluid rounded-start"
+                            style="width:100%;height: 100%;" alt="...">
+                        {% endif %}
                     </div>
                     <div class="col-lg-7 col-md-12 col-sm-12">
                         <div class="card-body" style="background-color: white;">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <div class="d-flex justify-content-between align-items-center mt-2 mb-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="/media/{{request.user.profile_pic}}" class="rounded-pill" height="50"
+                                            width="50" alt="">
+                                    </div>
+
+                                    <h6 class="ms-2">{{post.user.first_name}}</h6>
+                                </div>
+                                {% if post.user == request.user %}
+                                <div class="dropdown">
+                                    <button class="btn btn-transparent rounded-pill" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                            <path
+                                                d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                        </svg>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Update</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="/core/public/post/del/{{post.id}}/">Delete</a></li>
+                                        
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <p class="card-text">{{ post.description|slice:"50" }}</p>
+                            <p class="card-text"><small class="text-muted">Post created {{ post.date_created|timesince}} ago</small></p>
                             <div class="d-flex align-items center">
 
-                                <button type="button" class="btn" style="color: white; background-color: orange;"
-                                    data-toggle="modal" data-target="#addlist">
+                                <button type="button" class="btn" id="sharebtn{{post.id}}"
+                                    style="color: white; background-color: orange;" data-toggle="modal"
+                                    data-target="#addlist" onclick="copyPostLink('{{ post.slug }}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-share-fill" viewBox="0 0 16 16">
                                         <path
                                             d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
                                     </svg>
                                 </button>
-                                <button type="button" class="btn ms-4" style="color: white; background-color: orange;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z" />
-                                    </svg>
-                                </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% else %}
+            <h2 class="ms-2 mt-5">No post created</h2>
+            {% endif %}
+            {% endfor %}
         </div>
-        <div class="col-lg-5 mt-4 bg-light p-4 rounded" style="height: 35rem; ">
-            <div id="postSection">
-                <div class="text-center w-100">
-                    <button id="showTrendingBtn" class="active-2">Trending Posts</button>
-                    <button id="showPopularBtn">Popular Posts</button>
+        <div class="col-lg-5 mt-4 bg-light p-4 rounded" style="height: 35rem;">
+
+            <div class="text-center w-100">
+                <button id="showTrendingBtn" class="active-2">Trending Posts</button>
+                <button id="showPopularBtn">Popular Posts</button>
+            </div>
+            <div id="postSection" style="height:100%;padding-top: 30px; padding-bottom: 50px;">
+                <div id="trendingPosts" class="postList" style="overflow-y: auto; height: 100%;">
+                    {% if socialpost|length > 0 %}
+                    {% for post in socialpost %}
+                    {% if post.is_trending %}
+                    <div class="container-fluid mb-3" style="background-color: antiquewhite;">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12" style="padding: 0px 0px !important;">
+                                <img src="/media/{{ post.image_a }}" alt="logo"
+                                    style="object-fit: cover; height: 200px; width: 100%;">
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <img src="/media/{{ request.user.profile_pic }}" class="rounded-pill"
+                                                height="30" width="30" alt="">
+                                        </div>
+                                        <h6 class="ms-2">{{ request.user.first_name }}</h6>
+                                    </div>
+                                    {% if post.user == request.user %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-transparent rounded-pill" role="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-three-dots-vertical"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                            </svg>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                          
+                                            <li><a class="dropdown-item" href="#">Update</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="/core/public/post/del/{{post.id}}/">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <p class="card-text">{{ post.description|slice:"20" }}</p>
+                                <p class="card-text"><small class="text-muted">Post created {{post.date_created|timesince }} ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <h6 class="ms-2">No Trending Post</h6>
+                    {% endif %}
+
                 </div>
-                <div id="trendingPosts" class="postList" style="overflow-y: hidden;">
-                    <h1>Hello trending</h1>
-                </div>
-            
-                <div id="popularPosts" class="postList" style="opacity: 0; display: none; overflow-y: hidden;">
-                    <h1>Hello Popular</h1>
+
+                <div id="popularPosts" class="postList"
+                    style="opacity: 0; display: none; overflow-y: auto; height: 100%;">
+                    {% if socialpost|length > 0 %}
+                    {% for post in socialpost %}
+                    {% if post.is_popular %}
+                    <div class="container-fluid mb-3" style="background-color: antiquewhite;">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12" style="padding: 0px 0px !important;">
+                                {% if post.image_a %}
+                                <img src="/media/{{ post.image_a }}" alt="logo"
+                                    style="object-fit: cover; height: 200px; width: 100%;">
+                                    {% elif post.image_b and not post.image_a %}
+                                <img src="/media/{{ post.image_b }}" alt="logo"
+                                    style="object-fit: cover; height: 200px; width: 100%;">
+                                {% else %}
+                                <img src="{% static 'media/logo.webp' %}" alt="logo"
+                                    style="object-fit: cover; height: 200px; width: 100%;">
+                                {% endif %}
+
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <img src="/media/{{ request.user.profile_pic }}" class="rounded-pill"
+                                                height="30" width="30" alt="">
+                                        </div>
+                                        <h6 class="ms-2">{{ request.user.first_name }}</h6>
+                                    </div>
+                                    {% if post.user == request.user %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-transparent rounded-pill" role="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-three-dots-vertical"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                            </svg>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            
+                                            <li><a class="dropdown-item" href="#">Update</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="/core/public/post/del/{{post.id}}/">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <p class="card-text">{{ post.description|slice:"20" }}</p>
+                                <p class="card-text"><small class="text-muted">Post created {{post.date_created|timesince }} ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <h6 class="ms-2">No Trending Post</h6>
+                    {% endif %}
                 </div>
             </div>
-            
+
 
 
         </div>
     </div>
     <button
-        style="position: fixed; top: 89%; z-index: 500; right: 5%; background-color: white; border: none; outline: none; border-radius: 50%; height: 55px; width: 55px; padding: 10px; box-shadow: 0px 5px 8px rgb(80, 80, 80);">
+        style="position: fixed; top: 89%; z-index: 500; right: 5%; background-color: white; border: none; outline: none; border-radius: 50%; height: 55px; width: 55px; padding: 10px; box-shadow: 0px 5px 8px rgb(80, 80, 80);"
+        data-bs-toggle="modal" data-bs-target="#postmodel" style="box-shadow: 0 0 8px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus"
             viewBox="0 0 16 16">
             <path
@@ -68,41 +211,108 @@
         </svg>
     </button>
 </div>
+{% include "core/post_model.html" %}
 {% endblock content %}
 
 {% block js %}
+// For image 1
+const imageInput = document.getElementById('image1');
+const previewImage = document.getElementById('previewImage1');
+const imageIcon = document.getElementById('imageIcon');
+
+imageInput.addEventListener('change', function (event) {
+const file = event.target.files[0];
+
+if (file) {
+const reader = new FileReader();
+
+reader.onload = function (event) {
+previewImage.src = event.target.result;
+previewImage.style.display = 'block'; // Make the preview image visible
+imageIcon.style.display = 'none';
+};
+
+reader.readAsDataURL(file);
+}
+});
+
+// For image 2
+const imageInput2 = document.getElementById('image2');
+const previewImage2 = document.getElementById('previewImage2');
+const imageIcon2 = document.getElementById('imageIcon2');
+
+imageInput2.addEventListener('change', function (event) {
+const file = event.target.files[0];
+
+if (file) {
+const reader = new FileReader();
+
+reader.onload = function (event) {
+previewImage2.src = event.target.result;
+previewImage2.style.display = 'block'; // Make the preview image visible
+imageIcon2.style.display = 'none';
+};
+
+reader.readAsDataURL(file);
+}
+});
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to toggle active class between buttons
-    document.querySelectorAll('#postSection button').forEach(function(button) {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            document.querySelectorAll('#postSection button').forEach(function(btn) {
-                btn.classList.remove('active-2');
-            });
+// Function to toggle active class between buttons
+document.querySelectorAll('#showTrendingBtn, #showPopularBtn').forEach(function(button) {
+button.addEventListener('click', function() {
+// Remove active class from all buttons
+document.querySelectorAll('#showTrendingBtn, #showPopularBtn').forEach(function(btn) {
+btn.classList.remove('active-2');
+});
 
-            // Add active class to clicked button
-            this.classList.add('active-2');
+// Add active class to clicked button
+this.classList.add('active-2');
 
-            // Toggle display of sections with smooth transition
-            if (this.id === 'showTrendingBtn') {
-                document.getElementById('trendingPosts').style.display = 'block';
-                document.getElementById('popularPosts').style.display = 'none';
-                setTimeout(function() {
-                    document.getElementById('trendingPosts').style.opacity = '1';
-                    document.getElementById('popularPosts').style.opacity = '0';
-                }, 10); // Delay for smooth transition
-            } else if (this.id === 'showPopularBtn') {
-                document.getElementById('trendingPosts').style.display = 'none';
-                document.getElementById('popularPosts').style.display = 'block';
-                setTimeout(function() {
-                    document.getElementById('trendingPosts').style.opacity = '0';
-                    document.getElementById('popularPosts').style.opacity = '1';
-                }, 10); // Delay for smooth transition
-            }
-        });
-    });
+// Toggle display of sections with smooth transition
+if (this.id === 'showTrendingBtn') {
+document.getElementById('trendingPosts').style.display = 'block';
+document.getElementById('popularPosts').style.display = 'none';
+setTimeout(function() {
+document.getElementById('trendingPosts').style.opacity = '1';
+document.getElementById('popularPosts').style.opacity = '0';
+}, 10); // Delay for smooth transition
+} else if (this.id === 'showPopularBtn') {
+document.getElementById('trendingPosts').style.display = 'none';
+document.getElementById('popularPosts').style.display = 'block';
+setTimeout(function() {
+document.getElementById('trendingPosts').style.opacity = '0';
+document.getElementById('popularPosts').style.opacity = '1';
+}, 10); // Delay for smooth transition
+}
+});
+});
 });
 
 
+document.addEventListener('DOMContentLoaded', function() {
+const checkbox1 = document.getElementById('flexSwitchCheckDefault');
+const checkbox2 = document.getElementById('flexSwitchCheckChecked');
 
+checkbox1.addEventListener('change', function() {
+if (this.checked) {
+checkbox2.checked = false;
+}
+});
+
+checkbox2.addEventListener('change', function() {
+if (this.checked) {
+checkbox1.checked = false;
+}
+});
+});
+
+function copyPostLink(slug) {
+var dummy = document.createElement("textarea");
+document.body.appendChild(dummy);
+dummy.value = window.location.origin + "/core/public/post/share/" + slug; // Adjust the URL structure as needed
+dummy.select();
+document.execCommand("copy");
+document.body.removeChild(dummy);
+alert("Post link copied!");
+}
 {% endblock js %}

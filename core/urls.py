@@ -1,8 +1,11 @@
 from django.urls import path
-from core.views import (Register, Login, Logout, create_list, update_list, list_del, list_marked, list_unmarked, marked_as_completed, search_list, social_data, account)
-from core.views import List_Detail, PreList_Detail
+from core.views import (Register, Login, Logout, create_list, update_list, list_del, list_marked, list_unmarked, marked_as_completed, search_list, social_data, account, create_post, post_del)
+from core.views import List_Detail, PreList_Detail, SharePost
 urlpatterns = [
     path('public', social_data, name="post"),
+    path('public/post/create', create_post, name="createpost"),
+    path('public/post/del/<int:id>/', post_del, name="Del-post"),
+    path('public/post/share/<str:slug>', SharePost.as_view(), name="share-post"),
     path('public/account', account, name="account"),
     path('public/m/list/search', search_list, name="l-search"),
     path('public/m/list', marked_as_completed, name="m-completed"),

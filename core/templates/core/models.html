@@ -25,7 +25,8 @@
                     {% csrf_token %}
                     <div class="row mb-4">
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" name="title" id="title" placeholder="Write title" required>
+                            <input type="text" class="form-control" name="title" id="title" placeholder="Write title"
+                                required>
                         </div>
                         <div class="col-lg-2">
                             <button class=" btn-web w-75" type="submit">Post</button>
@@ -92,20 +93,21 @@
 
         </div>
     </div>
+
 </div>
 
-
 <!-- Modal -->
-<div class="modal modal-lg fade-m slide-from-bottom" id="detaillist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal modal-lg fade-m slide-from-bottom" id="detaillist" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        
-        <div class="modal-body" id="detaillistmodel">
-         
+        <div class="modal-content">
+
+            <div class="modal-body" id="detaillistmodel">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>

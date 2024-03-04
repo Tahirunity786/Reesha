@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import HttpResponse
-from core.models import ListApp, Prefdefinelist
+from core.models import ListApp, Prefdefinelist, SocialPost
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,7 @@ from rest_framework.decorators import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from core.serializers import ListSerailizer, PrelistSerializer
+from core.serializers import ListSerailizer, PostSerializer, PrelistSerializer
 
 User = get_user_model()
 
@@ -41,7 +41,6 @@ def Register(request):
             email = request.POST.get('email')
             password = request.POST.get('password')
             re_password = request.POST.get('confirm_password')
-           
             if first_name and last_name and  email and password and re_password:
                 if password == re_password:
                     # Create a new user object
@@ -100,13 +99,16 @@ def Login(request):
                 # If authentication successful, log in the user
                 login(request, user)
                 # Redirect to a success page or any desired page
+                
                 return redirect("/")
             else:
                 # If authentication fails, return an error message
-                return HttpResponse("Invalid email/username or password. Please try again.")
+                messages.error(request, "Invalid Credentials")
+                return redirect("Login")
         else:
             # If email/username or password is missing, return an error message
-            return HttpResponse("Please provide both email/username and password.")
+            messages.error(request, "Have you leave a feild? Please fill out all feilds.")
+            return redirect("Login")
     else:
         # If not a POST request, return the login page
         return render(request, "core/login.html")
@@ -392,7 +394,11 @@ def social_data(request):
         HttpResponse: Rendered HTML response containing social data.
 
     """
-    return render(request, 'core/social.html')
+    posts = SocialPost.objects.all()
+    response = {
+        "socialpost":posts
+    }
+    return render(request, 'core/social.html', response)
 
 
 @login_required(login_url='/core/public/u/login')
@@ -476,3 +482,147 @@ class PreList_Detail(APIView):
         
         serializers = PrelistSerializer(instance=list_data)
         return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+@login_required(login_url='/core/public/u/login')
+def create_post(request):
+   
+    # Check if the request method is POST
+    if request.method == "POST":
+        # Check if the user is authenticated
+        if request.user.is_authenticated:
+            # Retrieve data from POST request
+            trending = request.POST.get('trending')
+            poppular = request.POST.get('popular')
+            description = request.POST.get("description")
+            image_a = request.FILES.get("imagea")
+            image_b = request.FILES.get("imageb")
+            # Determine if images are provided
+            if image_a is None and image_b is None:
+                # If no images are provided, create the list without images
+                post = SocialPost.objects.create(user=request.user, description=description)
+                if poppular == "on":
+                    post.is_popular = True
+                if trending == "on":
+                    post.is_trending = True
+                post.save()
+            elif image_a is not None and image_b is None:
+                # If only imagea is provided, save one image
+                post=SocialPost.objects.create(user=request.user, description=description, image_a=image_a)
+                if poppular == "on":
+                    post.is_popular = True
+                if trending == "on":
+                    post.is_trending = True
+                post.save()
+            elif image_a is None and image_b is not None:
+                # If only imageb is provided, save one image
+                post=SocialPost.objects.create(user=request.user, description=description, image_b=image_b)
+                if poppular == "on":
+                    post.is_popular = True
+                if trending == "on":
+                    post.is_trending = True
+                post.save()
+            else:
+                # If both images are provided, save both images
+                post=SocialPost.objects.create(user=request.user, description=description, image_a=image_a, image_b=image_b)
+                if poppular == "on":
+                    post.is_popular = True
+                if trending == "on":
+                    post.is_trending = True
+                post.save()
+
+            # Redirect to home page upon successful creation
+            return redirect("post")
+        else:
+            # If user is not authenticated, redirect to home page
+            return redirect("post")
+    else: 
+        # If request method is not POST, redirect to home page
+        return redirect("post")
+
+@login_required(login_url='/core/public/u/login')
+def update_list(request, id):
+    """
+    Retrieve or update a list item.
+
+    Parameters:
+    - request: HTTP request object
+    - id: ID of the list item to retrieve or update
+
+    Returns:
+    - JsonResponse containing serialized list item data or error message
+    - Redirect response after updating the list item
+    """
+    try:
+       
+        if request.method == "POST":
+            # Update the list item
+            try:
+                post_data = SocialPost.objects.get(id=id)
+            except ObjectDoesNotExist as e:
+                return JsonResponse(data={'error': f"Post not exist with ID {id}"}, status=404)
+            trending = request.POST.get('trending')
+            poppular = request.POST.get('popular')
+            description = request.POST.get('description')
+            
+            # Handle file uploads
+            image_a = request.FILES.get('imagea')
+            image_b = request.FILES.get('imageb')
+            
+            if trending  :
+                post_data.is_trending = True
+            if poppular  :
+                post_data.is_popular = True
+            post_data.description = description 
+            
+            # Update images only if provided in the request
+            if image_a:
+                post_data.image_a = image_a
+            if image_b:
+                post_data.image_b = image_b
+            
+            post_data.save()
+            return redirect("post")
+    except Exception as e:
+        # Return a generic error message
+      
+        return JsonResponse(data={"error": f"An unexpected error occurred, {e}"}, status=500)
+
+
+def post_del(request, id):
+    """
+    Delete a specific Post item.
+
+    Parameters:
+    - request: HTTP request object
+    - id: ID of the list item to delete
+
+    Returns:
+    - Redirect response
+    """
+    try:
+        product_fetch = SocialPost.objects.get(id=id, user=request.user)
+        if product_fetch:
+            product_fetch.delete()
+            return redirect("post")
+        else:
+            messages.error(request, "post not found")
+            return redirect('post')
+    except Exception as e:
+        messages.error(request, f"Error occurred {e}")
+        return redirect('post')
+
+
+class SharePost(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, slug):  # Add 'self' as the first argument
+
+        try:
+            post = SocialPost.objects.get(slug=slug)
+        except SocialPost.DoesNotExist:
+            return Response({"Error":"Post for this slug not found"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = PostSerializer(instance=post)  # Renamed 'serializers' to 'serializer'
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

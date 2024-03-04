@@ -1,0 +1,76 @@
+<div class="modal fade slide-from-right modal-lg" id="postmodel" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="/core/public/post/create" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row mb-4">
+                        <div class="col-lg-10 d-flex align-items-center">
+                            <div class="form-check form-switch d-flex align-items-center me-3">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="trending">
+                                <label class="form-check-label ms-2" for="flexSwitchCheckDefault">Make post Trending</label>
+                              </div>
+                              <div class="form-check form-switch d-flex align-items-center">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="popular">
+                                <label class="form-check-label ms-2" for="flexSwitchCheckChecked">Make post Popular</label>
+                              </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class=" btn-web w-75" type="submit">Post</button>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <textarea name="description" id="description" cols="30" rows="10" style="resize: none;"
+                                placeholder="Write Description" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label for="image1" style="display: block; cursor: pointer;">
+                                <div class="card mt-md-2 mt-sm-4 rounded">
+                                    <div class="card-body d-flex justify-content-center align-items-center"
+                                        style="padding: 0px 0px; height: 100%;">
+                                        <img id="previewImage1" src="#" alt="Image 1"
+                                            style="display: none; width: 100%; height: 100%;" />
+
+                                        <svg id="imageIcon" style="height: 1rem;" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 512 512">
+                                            <path
+                                                d="M448 80c8.8 0 16 7.2 16 16V415.8l-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3V96c0-8.8 7.2-16 16-16H448zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="file" name="imagea" id="image1" style="display: none;" accept="image/*">
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="image2" style="display: block; cursor: pointer;">
+                                <div class="card mt-md-2 mt-sm-4 img-card rounded">
+                                    <div class="card-body d-flex justify-content-center align-items-center"
+                                        style="padding: 0px 0px; height: 100%;">
+                                        <img id="previewImage2" src="#" alt="Image 2"
+                                            style="display: none; width: 100%; height: 100%;" />
+                                        <svg id="imageIcon2" style="height: 1rem;" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 512 512">
+                                            <path
+                                                d="M448 80c8.8 0 16 7.2 16 16V415.8l-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3V96c0-8.8 7.2-16 16-16H448zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="file" name="imageb" id="image2" style="display: none;" accept="image/*">
+                        </div>
+                    </div>
+                    
+                </form>
+                <div class="w-100">
+                    <button class="btn btn-dark text-center" data-bs-dismiss="modal" aria-label="Close"
+                        style="float: inline-end;">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

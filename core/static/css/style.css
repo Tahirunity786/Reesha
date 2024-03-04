@@ -7,7 +7,7 @@ html {
 }
 
 .page-2 {
-    background-color: #F8C25A;
+    background-color: rgb(255, 207, 117);
     /* margin-top: 20px */
     /* margin-top: 20px; */
 }
@@ -483,4 +483,49 @@ input#s-input {
 
 .postList {
     transition: opacity 0.3s ease-in-out; /* Smooth transition for opacity */
+}
+#popularPosts::-webkit-scrollbar {
+    width: 10px; /* Adjust the width of the scrollbar */
+}
+
+#popularPosts::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+}
+
+#popularPosts::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 5px; /* Border radius of the scrollbar thumb */
+}
+
+#popularPosts::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar thumb on hover */
+}
+#trendingPosts::-webkit-scrollbar {
+    width: 10px; /* Adjust the width of the scrollbar */
+}
+
+#trendingPosts::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+}
+
+#trendingPosts::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 5px; /* Border radius of the scrollbar thumb */
+}
+
+#trendingPosts::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar thumb on hover */
+}
+
+.slide-from-right .modal-dialog {
+    animation: slideInRight 0.3s forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
