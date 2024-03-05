@@ -1,5 +1,5 @@
 from django.urls import path
-from core.views import (Register, Login, Logout, create_list, update_list, list_del, list_marked, list_unmarked, marked_as_completed, search_list, social_data, account, create_post, post_del)
+from core.views import (Register, Login, Logout, create_list, update_list, list_del, list_marked, list_unmarked, marked_as_completed, search_list, social_data, account, create_post, post_del, update_postlist)
 from core.views import List_Detail, PreList_Detail, SharePost
 urlpatterns = [
     path('public', social_data, name="post"),
@@ -14,6 +14,7 @@ urlpatterns = [
     path('public/u/logout', Logout, name="Logout"),
     path('public/create_list', create_list, name="createlist"),
     path('public/lists/<int:id>/', update_list, name="Update"),
+    path('public/post/d/<int:id>/', update_postlist, name="Update-post"),
     path('public/lists/marked/<int:id>/', list_marked, name="Marked-o"),
     path('public/lists/del/<int:id>/', list_del, name="Marked-p"),
     path('public/lists/unmark/<int:id>/', list_unmarked, name="Marked-q"),

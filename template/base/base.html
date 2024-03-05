@@ -19,39 +19,29 @@
     <nav class="navbar navbar-expand-lg bg-light ps-4 pe-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="/"><img src="{% static 'media/logo.webp' %}" alt="logo" class="img-fluid"
-                    height="60" width="60"></a>
+                                                  height="60" width="60"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item nav-b ms-3 mb-1">
-                        <a class="nav-link active" aria-current="page" href="/">My Bucket List</a>
+                        <a class="nav-link" aria-current="page" href="/" data-target="home">My Bucket List</a>
                     </li>
                     <li class="nav-item nav-b ms-3 mb-1">
-                        <a class="nav-link active" aria-current="page" href="/core/public">Social</a>
+                        <a class="nav-link" aria-current="page" href="/core/public" data-target="social">Social</a>
                     </li>
                     <li class="nav-item nav-b ms-3 mb-1">
-                        <a class="nav-link active" aria-current="page" href="/core/public/m/list">
-                            Marked List
-                        </a>
+                        <a class="nav-link" aria-current="page" href="/core/public/m/list" data-target="completed">Completed</a>
                     </li>
-                    
                     <li class="nav-item nav-b ms-3 mb-1">
-                        <a class="nav-link active" href="/core/public/account">
-
-                            Account
-                        </a>
+                        <a class="nav-link" href="/core/public/account" data-target="account">Account</a>
                     </li>
                     <li class="nav-item ms-3 mb-1">
-                        <a class="nav-link active" href="/core/public/u/logout">
-
-                            Logout
-                        </a>
+                        <a class="nav-link" href="/core/public/u/logout" data-target="logout">Logout</a>
                     </li>
-
                 </ul>
                 <form class="d-flex" role="search" action="/core/public/m/list/search" method="get">
                     <input class="form-control me-2" type="search" placeholder="Search" name="q" aria-label="Search">
@@ -68,6 +58,28 @@
     <script>
         
         {% block js %} {% endblock js %}
+        $(document).ready(function () {
+            $(".nav-link").each(function () {
+                var href = $(this).attr('href');
+                if (href === window.location.pathname) {
+                    $(this).addClass('nav-active');
+                }
+            });
+    
+            $(".nav-link").click(function () {
+                $(".nav-link").removeClass("nav-active");
+                $(this).addClass("nav-active");
+    
+                var href = $(this).attr('href');
+                localStorage.setItem('activeNav', href);
+            });
+    
+            var activeNav = localStorage.getItem('activeNav');
+            if (activeNav) {
+                $(".nav-link").removeClass("nav-active");
+                $(".nav-link[href='" + activeNav + "']").addClass("nav-active");
+            }
+        });
     </script>
 
     <!-- jQuery -->

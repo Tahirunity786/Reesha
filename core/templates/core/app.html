@@ -3,6 +3,9 @@
 {% block content %}
 
 <div class="mt-4 mb-4 rounded container">
+    <h1 class="text-center mb-2 mt-4 text-light">My Activities</h1>
+    <div class="divder text-center" style="width: 100px; height: 5px; background-color: white; margin: auto; margin-bottom: 20px;"></div>
+
     {% for lists in Lists %}
     {% if lists.mark_as_completed == False %}
     <div class="d-flex justify-content-between align-items-center mb-2 bg-light p-2 w-75 m-auto rounded"
@@ -178,7 +181,7 @@ modalBody.innerHTML = `
 <form method="post" , action="/core/public/lists/${data.id}/" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
+        <label for="name" class="form-label">Title</label>
         <input type="text" class="form-control" id="model-title" name="title" value="${data.title}">
     </div>
     <div class="mb-3">

@@ -12,8 +12,8 @@ def main(request):
         user = request.user
         user_account = User.objects.get(email=user)
         if user_account is not None:
-            prod = ListApp.objects.filter(user=user_account)
-            lists = Prefdefinelist.objects.all()
+            prod = ListApp.objects.filter(user=user_account).order_by("-id")
+            lists = Prefdefinelist.objects.all().order_by("-id")
             return render(request, "core/app.html", {"Lists":prod, "predeflist":lists})
         else:
             render(request, "core/app.html", {"Error":"Not list found!"})

@@ -1,13 +1,27 @@
+@font-face {
+    font-family: Lato;
+    src: url("../font/Lato-Regular.ttf");
+  }
+
+*{
+    font-family: Lato;
+}
 body,
 html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     height: 100%;
+
+}
+.nav-active{
+    border-bottom: 4px solid rgb(199, 129, 0);
+    color: black;
 }
 
 .page-2 {
-    background-color: rgb(255, 207, 117);
+    background-color: rgb(199, 129, 0);
+  
     /* margin-top: 20px */
     /* margin-top: 20px; */
 }

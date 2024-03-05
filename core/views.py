@@ -167,10 +167,12 @@ def create_list(request):
             else:
                 # If both images are provided, save both images
                 ListApp.objects.create(user=request.user, title=title, description=description, image_a=image_a, image_b=image_b)
-
+            
+            
             # Redirect to home page upon successful creation
             return redirect("/")
         else:
+
             # If user is not authenticated, redirect to home page
             return redirect("/")
     else: 
@@ -394,7 +396,7 @@ def social_data(request):
         HttpResponse: Rendered HTML response containing social data.
 
     """
-    posts = SocialPost.objects.all()
+    posts = SocialPost.objects.all().order_by("-id")
     response = {
         "socialpost":posts
     }
@@ -541,7 +543,7 @@ def create_post(request):
         return redirect("post")
 
 @login_required(login_url='/core/public/u/login')
-def update_list(request, id):
+def update_postlist(request, id):
     """
     Retrieve or update a list item.
 
@@ -614,7 +616,6 @@ def post_del(request, id):
 
 
 class SharePost(APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request, slug):  # Add 'self' as the first argument
 
